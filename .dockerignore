@@ -1,0 +1,34 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies
+node_modules
+npm-debug.log
+
+# Build output
+dist
+
+# Environment files
+.env
+.env.*
+
+# Editor directories
+.idea
+.vscode
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test files
+coverage
+*.test.js
+*.spec.js
+
+# Other
+README.md
+*.log
+.dockerignore
+Dockerfile
+docker-compose.yml
