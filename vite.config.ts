@@ -7,15 +7,23 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Asegura que los archivos JS tengan la extensión .js
-        entryFileNames: 'assets/[name]-[hash].js',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash][extname]'
       }
     },
     // Asegura que los assets se sirvan correctamente
     assetsDir: 'assets',
     // Genera sourcemaps para mejor debugging
-    sourcemap: true
+    sourcemap: true,
+    // Optimizaciones para producción
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
   },
   // Configuración del servidor de desarrollo
   server: {

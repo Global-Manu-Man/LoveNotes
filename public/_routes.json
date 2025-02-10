@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "include": ["/*"],
+    "exclude": [
+      "/_assets/*",
+      "/build/*",
+      "/coverage/*",
+      "/node_modules/*"
+    ],
+    "headers": {
+      "/*.js": {
+        "headers": {
+          "Content-Type": "application/javascript; charset=utf-8"
+        }
+      },
+      "/*.css": {
+        "headers": {
+          "Content-Type": "text/css; charset=utf-8"
+        }
+      }
+    }
+  }
