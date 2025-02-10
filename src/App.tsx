@@ -17,20 +17,22 @@ function App() {
   // If we have a card ID in the URL, show the public card view
   if (cardId) {
     return (
-      <ThemeProvider>
-        <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
-          <PublicCardView cardId={cardId} />
-          <Toaster position="top-right" />
-        </div>
-      </ThemeProvider>
+      <LanguageProvider>
+        <ThemeProvider>
+          <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+            <PublicCardView cardId={cardId} />
+            <Toaster position="top-right" />
+          </div>
+        </ThemeProvider>
+      </LanguageProvider>
     );
   }
 
   // Otherwise show the main app
   return (
-    <AuthProvider>
+    <LanguageProvider>
       <ThemeProvider>
-        <LanguageProvider>
+        <AuthProvider>
           <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
             <Navbar />
             <Hero />
@@ -39,9 +41,9 @@ function App() {
             <Footer />
             <Toaster position="top-right" />
           </div>
-        </LanguageProvider>
+        </AuthProvider>
       </ThemeProvider>
-    </AuthProvider>
+    </LanguageProvider>
   );
 }
 
