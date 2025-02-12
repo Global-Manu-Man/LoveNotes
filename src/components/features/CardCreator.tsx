@@ -200,56 +200,54 @@ function CardCreator({ onClose }: CardCreatorProps) {
 
   // Move outside handleSubmit
   const handleNextStep = () => {
-    if (!formData.recipientName.trim()) {
-      toast(language === "en" ? "Recipient's Name is required" : "El nombre del destinatario es obligatorio", { icon: '⚠️' });
-      return;
+    if (step === 1) {
+      if (!formData.recipientName.trim()) {
+        toast(language === "en" ? "Recipient's Name is required" : "El nombre del destinatario es obligatorio", { icon: '⚠️' });
+        return;
+      }
+      if (!formData.recipientGender) {
+        toast(language === "en" ? "Recipient's Gender is required" : "El género del destinatario es obligatorio", { icon: '⚠️' });
+        return;
+      }
+      if (!formData.message.trim()) {
+        toast(language === "en" ? "Your Message is required" : "El mensaje es obligatorio", { icon: '⚠️' });
+        return;
+      }
     }
-    if (!formData.recipientGender) {
-      toast(language === "en" ? "Recipient's Gender is required" : "El género del destinatario es obligatorio", { icon: '⚠️' });
-      return;
-    }
-    if (!formData.message.trim()) {
-      toast(language === "en" ? "Your Message is required" : "El mensaje es obligatorio", { icon: '⚠️' });
-      return;
-    }
+  
+    // 🔹 Si estamos en el paso 3, avanzamos al paso 4 (vista previa)
     if (step === 3) {
       setStep(4);
-      return;
+      return; // 🔹 IMPORTANTE: Esto evita que pase directo al envío
     }
-    // 🔹 Si no es el paso 3, simplemente avanzamos al siguiente paso
+  
+    // 🔹 En cualquier otro caso, avanza al siguiente paso
     setStep(step + 1);
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-
-    // 🔹 Solo permitir el envío si estamos en la etapa final (paso 4)
+  
+    // 🔹 Asegurar que solo se ejecuta en el paso 4
     if (step !== 4) return;
-
+  
     if (!user) {
-      toast.error(
-        language === 'en'
-          ? 'Please sign in to create a card'
-          : 'Por favor, inicia sesión para crear una tarjeta'
-      );
+      toast.error(language === 'en' ? 'Please sign in to create a card' : 'Por favor, inicia sesión para crear una tarjeta');
       return;
     }
-
+  
     if (!formData.backgroundImage || !formData.backgroundImage.startsWith('http')) {
       toast(
         language === 'en'
           ? 'Please upload a valid background image'
           : 'Por favor, sube una imagen de fondo válida',
-        {
-          icon: 'ℹ️'
-        }
+        { icon: 'ℹ️' }
       );
       return;
     }
-
+  
     setIsSubmitting(true);
-
+  
     try {
       const { error } = await supabase
         .from('valentine_cards')
@@ -261,26 +259,19 @@ function CardCreator({ onClose }: CardCreatorProps) {
           background_image: formData.backgroundImage,
           user_id: user.id
         });
-
+  
       if (error) throw error;
-
-      toast.success(
-        language === 'en'
-          ? 'Card created successfully!'
-          : '¡Tarjeta creada exitosamente!'
-      );
+  
+      toast.success(language === 'en' ? 'Card created successfully!' : '¡Tarjeta creada exitosamente!');
       onClose();
     } catch (error) {
       console.error('Error creating card:', error);
-      toast.error(
-        language === 'en'
-          ? 'Failed to create card'
-          : 'Error al crear la tarjeta'
-      );
+      toast.error(language === 'en' ? 'Failed to create card' : 'Error al crear la tarjeta');
     } finally {
       setIsSubmitting(false);
     }
   };
+  
 
   const renderPreview = () => {
     return (
